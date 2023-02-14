@@ -12,6 +12,7 @@
     "rules": {},
     "ignorePatterns": [
         "node_modules/*",
-        "cypress/*"
+        "cypress/*",
+        "*.config.*"
     ]
 }
