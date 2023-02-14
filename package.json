@@ -1,0 +1,27 @@
+{
+  "name": "pixels-art",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "preview": "vite preview",
+    "cy:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^12.5.1",
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "stylelint": "^15.1.0",
+    "stylelint-config-standard": "^30.0.1",
+    "vite": "^4.1.0"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.10.5",
+    "gh-pages": "^5.0.0"
+  }
+}
