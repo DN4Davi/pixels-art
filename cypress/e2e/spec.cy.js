@@ -1,31 +1,61 @@
-describe("Adicionar o título 'Pixels Art' à página", () => {
-  beforeEach(() => cy.visit("http://localhost:5173/pixels-art/"));
+describe('Testa a funcionalidade da paleta de cores', () => {
+  it('Verifica se há um elemento com [data-cy="color-palette"]', () => {
 
-  it("Verifica se existe um elemento com [data-cy='title']", () => {
-    cy.get("[data-cy='title']").should('exist');
   });
 
-  it("Verifica se o referido elemento é um <h1> possui o texto 'Pixels Art'", () => {
-    cy.get("[data-cy='title']").contains('h1',"Pixels Art");
+  it('Verifica se, dentro da paleta de cores, existem 4 elementos com [data-cy="color"]', () => {
+
   });
 
+  it('Verifica se cada [data-cy="color"] tem como background uma cor primária do modelo CMYK', () => {
+
+  });
+
+  it('Verifica se, dentro da paleta de cores, existe um input do tipo color com [data-cy="color-picker"]', () => {
+
+  });
+
+  it('Verifica se, ao selecionar uma cor, o input passa a ter a mesma cor como valor', () => {
+
+  });
+
+  it('Verifica se, ao alterar a cor do input, a cor selecionada também altera', () => {
+
+  });
 });
 
-describe("Adicionar uma paleta de cores com 6 cores distintas", () => {
-  beforeEach(() => cy.visit("http://localhost:5173/pixels-art/"));
+describe('Testa a funcionalidade do tabuleiro de pixels', () => {
+  it('Verifica se há um elemento com [data-cy="pixels-table"]', () => {
 
-  it("Verifica se existe um elemento com [data-cy='colors-palette']", () => {
-    cy.get('[data-cy="colors-palette"').should("exist");
   });
 
-  it("Verifica se existem 6 elementos com [data-cy='color'] dentro da paleta de cores", () => {
-    cy.get('[data-cy="colors-palette"')
-    .get("[data-cy='color']")
-    .should('have.length', 6)
-    .then((colors) => {
-      const colorsArray = Array.from(colors)
-      .map((color) => getComputedStyle(color).backgroundColor)
-      expect(Array.from(new Set(colorsArray)).length).to.equal(colorsArray.length)
-    });
+  it('verifica se a altura do tabuleiro de pixels é igual à sua largura', () => {
+
   });
+
+  it('Verifica se, dentro do tabuleiro de pixels, há 625 elementos com [data-cy="pixel"]', () => {
+
+  });
+
+  it('Verifica se cada pixel tem altura igual à sua largura e tamanho igual aos outros', () => {
+
+  });
+
+  it('Verifica se cada pixel tem como cor inicial a cor branca', () => {
+
+  });
+});
+
+describe('Testa a integração entre a paleta de cores e o tabuleiro de pixels', () => {
+  it('Verifica se, ao clicar em um pixel, ele recebe a cor selecionada na paleta de cores', () => {
+
+  });
+
+  it('Verifica se, ao clicar em um pixel com a cor já alterada com outra cor selecionada, ele recebe a nova cor', () => {
+
+  });
+});
+
+describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o local storage', () => {
+  
 });
