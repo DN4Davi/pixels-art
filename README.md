@@ -11,7 +11,7 @@ Inspirado em um projeto que realizei no módulo de fundamentos da trybe, porém 
 - Ambiente de desenvolvimento com Vite;
 
 ## Requisitos do projeto
-- [ ] Adicionar todos os testes;
+- [x] Adicionar todos os testes;
 - [ ] Adicionar uma paleta de cores com as 4 cores do modelo CMYK;
 - [ ] Adicionar à paleta de cores um input do tipo color que altere a cor selecionada;
 - [ ] Adicionar um grid com 625 pixels na cor branca;
