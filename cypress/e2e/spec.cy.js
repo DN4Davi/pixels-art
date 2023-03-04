@@ -81,12 +81,18 @@ describe('Testa a funcionalidade do tabuleiro de pixels', () => {
       .should('have.length', 625);
   });
 
-  it.only('Verifica se cada pixel tem altura igual à sua largura e tamanho igual aos outros', () => {
+  it('Verifica se cada pixel tem altura igual à sua largura e tamanho igual aos outros', () => {
     cy.get('[data-cy="pixel"]').then((elements) => {
       Array.from(elements).reduce((previous, element) => {
-        expect(previous.getBoundingClientRect().width).to.be.equal(element.getBoundingClientRect().width);
-        expect(previous.getBoundingClientRect().height).to.be.equal(element.getBoundingClientRect().height);
-        expect(element.getBoundingClientRect().width).to.be.equal(element.getBoundingClientRect().height);
+        expect(previous.getBoundingClientRect().width).to.be.equal(
+          element.getBoundingClientRect().width
+        );
+        expect(previous.getBoundingClientRect().height).to.be.equal(
+          element.getBoundingClientRect().height
+        );
+        expect(element.getBoundingClientRect().width).to.be.equal(
+          element.getBoundingClientRect().height
+        );
         return previous;
       });
     });
@@ -100,9 +106,90 @@ describe('Testa a funcionalidade do tabuleiro de pixels', () => {
 });
 
 describe('Testa a integração entre a paleta de cores e o tabuleiro de pixels', () => {
-  it('Verifica se, ao clicar em um pixel, ele recebe a cor selecionada na paleta de cores', () => {});
+  beforeEach(() => {
+    cy.visit('http://localhost:5173/pixels-art/');
+  });
 
-  it('Verifica se, ao clicar em um pixel com a cor já alterada com outra cor selecionada, ele recebe a nova cor', () => {});
+  it('Verifica se, ao clicar em um pixel, ele recebe a cor selecionada na paleta de cores', () => {
+    cy.get('[data-cy="color"]').each((colorElement) => {
+      colorElement.trigger('click');
+      const color = colorElement.css('background-color');
+
+      cy.get('[data-cy="pixel"]').each((pixel) => {
+        pixel.trigger('click');
+        expect(pixel.css('background-color')).to.be.equal(color);
+      });
+    });
+  });
+
+  it('Verifica se, ao clicar em um pixel com a cor já alterada com outra cor selecionada, ele recebe a nova cor', () => {
+    //teste será removido, pois o teste anterior acaba testando a mesma coisa por tabela.
+  });
 });
 
-describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o local storage', () => {});
+describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o local storage', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:5173/pixels-art/').clearAllLocalStorage();
+  });
+
+  it.only('Verifica se, ao abrir a página pela primeira vez, o localStorage está vazio', () => {
+    expect(localStorage.length).to.be.equal(0);
+  });
+
+  it.only('Verifica se ao alterar a paleta de cores, a nova paleta de cores é salva no localStorage', () => {
+    cy.get('[data-cy="color"]').each((element, index) => {
+      element.trigger('click');
+      cy.get('[data-cy="color-picker"]')
+        .click()
+        .invoke('val', '#ff0000')
+        .trigger('change');
+      const saved = JSON.parse(localStorage.getItem('color-palette'));
+      expect(saved[index]).to.be.equal('rgb(255, 0, 0');
+    });
+  });
+
+  it.only('Verifica se, ao recarregar a página, a paleta de cores salva é recuperada', () => {
+    cy.get('[data-cy="color"]').first().click();
+    cy.get('[data-cy="color-picker"]')
+      .click()
+      .invoke('val', '#ff0000')
+      .trigger('change');
+
+    cy.get('[data-cy="color"]').last().click();
+    cy.get('[data-cy="color-picker"]')
+      .click()
+      .invoke('val', '#0000ff')
+      .trigger('change');
+
+    cy.reload();
+    cy.get('[data-cy="color"]')
+      .first()
+      .should('have.css', 'background-color', 'rgb(255, 0, 0)');
+    cy.get('[data-cy="color"]')
+      .last()
+      .should('have.css', 'background-color', 'rgb(0, 0, 255)');
+  });
+
+  it('Verifica se, ao ao alterar um pixel, a nova pixel table é salva no localStorage', () => {
+    cy.get('[data-cy="color"]').last().click();
+    cy.get('[data-cy="pixel"]').each((pixel, index) => {
+      pixel.trigger('click');
+      const saved = JSON.parse(localStorage.getItem('pixel-table'));
+      expect(saved[index]).to.be.equal('rgb(0, 0, 0)');
+    });
+  });
+
+  it('Verifica se, ao recarregar a página, a paleta de cores salva é recuperada', () => {
+    cy.get('[data-cy="color"]').last().click();
+    cy.get('[data-cy="pixel"]').first().click();
+    cy.get('[data-cy="pixel"]').last().click();
+
+    cy.reload();
+    cy.get('[data-cy="pixel"]')
+      .first()
+      .should('have.css', 'background-color', 'rgb(0, 0, 0)');
+    cy.get('[data-cy="pixel"]')
+      .last()
+      .should('have.css', 'background-color', 'rgb(0, 0, 0)');
+  });
+});
