@@ -121,10 +121,6 @@ describe('Testa a integração entre a paleta de cores e o tabuleiro de pixels',
       });
     });
   });
-
-  it('Verifica se, ao clicar em um pixel com a cor já alterada com outra cor selecionada, ele recebe a nova cor', () => {
-    //teste será removido, pois o teste anterior acaba testando a mesma coisa por tabela.
-  });
 });
 
 describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o local storage', () => {
