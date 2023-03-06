@@ -1,3 +1,5 @@
+import Color from "color";
+
 describe('Testa a funcionalidade da paleta de cores', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/pixels-art/');
@@ -35,16 +37,14 @@ describe('Testa a funcionalidade da paleta de cores', () => {
 
   it('Verifica se, ao selecionar uma cor, o input passa a ter a mesma cor como valor', () => {
     cy.get('[data-cy="color"]').each((element) => {
-      element.trigger('click');
-      cy.get('[data-cy="color-picker"]').should(
-        'have.value',
-        element.css('background-color')
-      );
+      cy.wrap(element).click();
+      const color = Color(element.css('background-color')).hex().toLowerCase();
+      cy.get('[data-cy="color-picker"]').should('have.value', color);
     });
   });
 
   it('Verifica se, ao alterar a cor do input, a cor selecionada também altera', () => {
-    cy.get('[data-cy="color"].active').should(
+    cy.get('[data-cy="color"].selected').should(
       'not.have.css',
       'background-color',
       'rgb(255, 8, 254)'
@@ -52,7 +52,7 @@ describe('Testa a funcionalidade da paleta de cores', () => {
     cy.get('[data-cy="color-picker"]')
       .invoke('val', '#ff08fe')
       .trigger('change');
-    cy.get('[data-cy="color"].active').should(
+    cy.get('[data-cy="color"].selected').should(
       'have.css',
       'background-color',
       'rgb(255, 8, 254)'
@@ -112,11 +112,11 @@ describe('Testa a integração entre a paleta de cores e o tabuleiro de pixels',
 
   it('Verifica se, ao clicar em um pixel, ele recebe a cor selecionada na paleta de cores', () => {
     cy.get('[data-cy="color"]').each((colorElement) => {
-      colorElement.trigger('click');
+      cy.wrap(colorElement).click();
       const color = colorElement.css('background-color');
 
       cy.get('[data-cy="pixel"]').each((pixel) => {
-        pixel.trigger('click');
+        cy.wrap(pixel).click();
         expect(pixel.css('background-color')).to.be.equal(color);
       });
     });
@@ -128,13 +128,13 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
     cy.visit('http://localhost:5173/pixels-art/').clearAllLocalStorage();
   });
 
-  it.only('Verifica se, ao abrir a página pela primeira vez, o localStorage está vazio', () => {
+  it('Verifica se, ao abrir a página pela primeira vez, o localStorage está vazio', () => {
     expect(localStorage.length).to.be.equal(0);
   });
 
-  it.only('Verifica se ao alterar a paleta de cores, a nova paleta de cores é salva no localStorage', () => {
+  it('Verifica se ao alterar a paleta de cores, a nova paleta de cores é salva no localStorage', () => {
     cy.get('[data-cy="color"]').each((element, index) => {
-      element.trigger('click');
+      cy.wrap(element).click();
       cy.get('[data-cy="color-picker"]')
         .click()
         .invoke('val', '#ff0000')
@@ -144,7 +144,7 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
     });
   });
 
-  it.only('Verifica se, ao recarregar a página, a paleta de cores salva é recuperada', () => {
+  it('Verifica se, ao recarregar a página, a paleta de cores salva é recuperada', () => {
     cy.get('[data-cy="color"]').first().click();
     cy.get('[data-cy="color-picker"]')
       .click()
@@ -169,7 +169,7 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
   it('Verifica se, ao ao alterar um pixel, a nova pixel table é salva no localStorage', () => {
     cy.get('[data-cy="color"]').last().click();
     cy.get('[data-cy="pixel"]').each((pixel, index) => {
-      pixel.trigger('click');
+      cy.wrap(pixel).click();
       const saved = JSON.parse(localStorage.getItem('pixel-table'));
       expect(saved[index]).to.be.equal('rgb(0, 0, 0)');
     });

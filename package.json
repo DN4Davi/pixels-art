@@ -12,6 +12,7 @@
     "cy:open": "cypress open"
   },
   "devDependencies": {
+    "@types/color": "^3.0.3",
     "cypress": "^12.5.1",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@emotion/css": "^11.10.5",
+    "color": "^4.2.3",
     "gh-pages": "^5.0.0"
   }
 }

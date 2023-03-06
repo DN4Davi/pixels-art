@@ -12,8 +12,8 @@ Inspirado em um projeto que realizei no módulo de fundamentos da trybe, porém 
 
 ## Requisitos do projeto
 - [x] Adicionar todos os testes;
-- [ ] Adicionar uma paleta de cores com as 4 cores do modelo CMYK;
-- [ ] Adicionar à paleta de cores um input do tipo color que altere a cor selecionada;
+- [x] Adicionar uma paleta de cores com as 4 cores do modelo CMYK;
+- [x] Adicionar à paleta de cores um input do tipo color que altere a cor selecionada;
 - [ ] Adicionar um grid com 625 pixels na cor branca;
 - [ ] Pintar os pixels com a cor selecionada ao clicá-los;
 - [ ] Salvar a paleta de cores atual no LocalStorage e recuperá-la ao recarregar a página;
