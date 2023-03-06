@@ -22,7 +22,6 @@
     "vite": "^4.1.0"
   },
   "dependencies": {
-    "@emotion/css": "^11.10.5",
     "color": "^4.2.3",
     "gh-pages": "^5.0.0"
   }

@@ -7,7 +7,7 @@ Inspirado em um projeto que realizei no módulo de fundamentos da trybe, porém 
 
 ## Outros conhecimentos exercitados
 - Testes com cypress;
-- Emotion para estilos dinâmicos;
+- ~~Emotion para estilos dinâmicos~~ (removed because add unnecessary logic);
 - Ambiente de desenvolvimento com Vite;
 
 ## Requisitos do projeto

@@ -1,51 +1,46 @@
-import ColorElement from './ColorElement';
+import Color from 'color';
 
 export default class ColorPalette {
   /**
-   *
    * @param {string} colorsClassName
-   * @param {string} pickerClassName
+   * @param {string} colorPickerClassName
    */
-  constructor(colorsClassName, pickerClassName) {
-    this.colorElements = Array.from(
-      document.querySelectorAll(colorsClassName)
-    ).map(
-      /**
-       * @param {HTMLElement} element
-       */
-      (element) => {
-        element.addEventListener('click', (event) => this.selectColor(event));
-        return new ColorElement(element);
-      }
-    );
-    this.colorPicker = document.querySelector(pickerClassName);
-    this.selectColor({ target: this.colorElements[0].element });
+  constructor(colorsClassName, colorPickerClassName) {
+    this.colorElements = document.querySelectorAll(colorsClassName);
+    this.colorPicker = document.querySelector(colorPickerClassName);
+    this.selected = null;
+
+    this.colorElements.forEach((colorElement) => {
+      colorElement.style.backgroundColor = colorElement.dataset.defaultColor;
+      colorElement.addEventListener('click', this.selectColor);
+    });
     this.colorPicker.addEventListener('change', this.changeColor);
+    this.selectColor({ target: this.colorElements[0] });
   }
 
+  /**
+   * @param {string} colorsClassName
+   * @param {string} colorPickerClassName
+   */
+  static init(colorsClassName, colorPickerClassName) {
+    return new ColorPalette(colorsClassName, colorPickerClassName);
+  }
+
+  /**
+   * @param {{target: HTMLElement}}
+   */
   selectColor = ({ target }) => {
-    this.colorElements.forEach(({ element }) => {
-      element.classList.remove('selected');
-    });
+    if (this.selected) this.selected.classList.remove('selected');
     target.classList.add('selected');
-
-    const selected = this.colorElements.find(
-      ({ element }) => element === target
-    );
-    this.colorPicker.value = selected.color;
-    this.selected = selected;
-  };
-
-  changeColor = ({ target: { value } }) => {
-    this.selected.color = value;
+    this.selected = target;
+    const color = target.style.backgroundColor;
+    this.colorPicker.value = Color(color).hex();
   };
 
   /**
-   *
-   * @param {string} colorsClassName
-   * @param {string} pickerClassName
+   * @param {{target: HTMLElement}}
    */
-  static init(colorsClassName, pickerClassName) {
-    return new ColorPalette(colorsClassName, pickerClassName);
-  }
+  changeColor = ({ target }) => {
+    this.selected.style.backgroundColor = target.value;
+  };
 }
