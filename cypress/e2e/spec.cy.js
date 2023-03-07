@@ -119,8 +119,7 @@ describe('Testa a integração entre a paleta de cores e o tabuleiro de pixels',
       const color = colorElement.css('background-color');
 
       cy.get('[data-cy="pixel"]').each((pixel) => {
-        cy.wrap(pixel).click();
-        expect(pixel.css('background-color')).to.be.equal(color);
+        cy.wrap(pixel).click().should('have.css', 'background-color', color);
       });
     });
   });
