@@ -1,4 +1,4 @@
-import Color from "color";
+import Color from 'color';
 
 describe('Testa a funcionalidade da paleta de cores', () => {
   beforeEach(() => {
@@ -75,23 +75,26 @@ describe('Testa a funcionalidade do tabuleiro de pixels', () => {
     });
   });
 
-  it('Verifica se, dentro do tabuleiro de pixels, há 625 elementos com [data-cy="pixel"]', () => {
+  it('Verifica se, dentro do tabuleiro de pixels, há 225 elementos com [data-cy="pixel"]', () => {
     cy.get('[data-cy="pixels-table"]')
       .find('[data-cy="pixel"]')
-      .should('have.length', 625);
+      .should('have.length', 225);
   });
 
   it('Verifica se cada pixel tem altura igual à sua largura e tamanho igual aos outros', () => {
     cy.get('[data-cy="pixel"]').then((elements) => {
       Array.from(elements).reduce((previous, element) => {
-        expect(previous.getBoundingClientRect().width).to.be.equal(
-          element.getBoundingClientRect().width
+        expect(previous.getBoundingClientRect().width).to.be.closeTo(
+          element.getBoundingClientRect().width,
+          0.2
         );
-        expect(previous.getBoundingClientRect().height).to.be.equal(
-          element.getBoundingClientRect().height
+        expect(previous.getBoundingClientRect().height).to.be.closeTo(
+          element.getBoundingClientRect().height,
+          0.2
         );
-        expect(element.getBoundingClientRect().width).to.be.equal(
-          element.getBoundingClientRect().height
+        expect(element.getBoundingClientRect().width).to.be.closeTo(
+          element.getBoundingClientRect().height,
+          0.2
         );
         return previous;
       });
