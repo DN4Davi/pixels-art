@@ -1,4 +1,6 @@
 import ColorPalette from './modules/ColorPalette';
+import PixelsTable from './modules/PixelsTable';
 import './style.css';
 
-ColorPalette.init('.color', '.color-picker');
+const colorPalette = ColorPalette.init('.color', '.color-picker');
+PixelsTable.init('.pixels-table', colorPalette, 15);
