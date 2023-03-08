@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import Color from 'color';
 
 export default class ColorPalette {
@@ -10,8 +11,8 @@ export default class ColorPalette {
     this.colorPicker = document.querySelector(colorPickerClassName);
     this.selected = null;
 
-    this.colorElements.forEach((colorElement) => {
-      colorElement.addEventListener('click', this.selectColor);
+    this.colorElements.forEach((color) => {
+      color.addEventListener('click', this.selectColor);
     });
     this.colorPicker.addEventListener('change', this.changeSelectedColor);
     this.restoreColors();
@@ -33,7 +34,7 @@ export default class ColorPalette {
     if (this.selected) this.selected.classList.remove('selected');
     target.classList.add('selected');
     this.selected = target;
-    const color = target.style.backgroundColor;
+    const color = getComputedStyle(target).backgroundColor;
     this.colorPicker.value = Color(color).hex();
   };
 
@@ -41,7 +42,11 @@ export default class ColorPalette {
    * @param {{target: HTMLElement}}
    */
   changeSelectedColor = ({ target }) => {
-    this.selected.style.backgroundColor = target.value;
+    this.selected.classList.remove(this.selected.dataset.className);
+    this.selected.dataset.className = css({
+      backgroundColor: target.value,
+    });
+    this.selected.classList.add(this.selected.dataset.className);
     this.saveColors();
   };
 
@@ -54,10 +59,13 @@ export default class ColorPalette {
 
   restoreColors() {
     const colorPalette = localStorage.getItem('color-palette');
-    if (colorPalette) {
-      this.colorElements.forEach((colorElement, index) => {
-        colorElement.style.backgroundColor = JSON.parse(colorPalette)[index];
+    this.colorElements.forEach((color, index) => {
+      color.dataset.className = css({
+        backgroundColor: colorPalette
+          ? JSON.parse(colorPalette)[index]
+          : color.dataset.defaultColor,
       });
-    }
+      color.classList.add(color.dataset.className);
+    });
   }
 }

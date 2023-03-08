@@ -48,8 +48,7 @@ export default class PixelsTable {
    */
   paintPixel = ({ target }) => {
     if (target === this.table) return;
-    const color = getComputedStyle(this.colorPalette.selected).backgroundColor;
-    target.style.backgroundColor = color;
+    target.className = `pixel ${this.colorPalette.selected.dataset.className}`;
     this.event = this.table.addEventListener('pointerover', this.paintPixel);
     this.savePixels();
   };
@@ -62,10 +61,14 @@ export default class PixelsTable {
   }
 
   restorePixels() {
-    const pixelsColors = localStorage.getItem('pixel-table');
+    const pixelsColors = JSON.parse(localStorage.getItem('pixel-table'));
     if (pixelsColors) {
-      this.pixels.forEach((pixel, index) => {
-        pixel.style.backgroundColor = JSON.parse(pixelsColors)[index];
+      const colorsSet = new Set(pixelsColors);
+      colorsSet.forEach((color) => {
+        const className = css({ backgroundColor: color });
+        this.pixels.forEach((pixel, index) => {
+          if (pixelsColors[index] === color) pixel.classList.add(className);
+        });
       });
     }
   }
