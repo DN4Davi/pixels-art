@@ -196,3 +196,31 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
       .should('have.css', 'background-color', 'rgb(0, 0, 0)');
   });
 });
+
+it('Testa o funcionamento do botão que reseta a aplicação', () => {
+  cy.visit('http://localhost:5173')
+  cy.get('[data-cy="reset-button"]')
+    .click()
+    .then(() => {
+      expect(localStorage.length).to.be.equal(0);
+
+      const CMYKColors = [
+        'rgb(0, 255, 255)',
+        'rgb(255, 0, 255)',
+        'rgb(255, 255, 0)',
+        'rgb(0, 0, 0)',
+      ];
+      cy.get('[data-cy="color"]').each((element) => {
+        const elementColor = element.css('background-color');
+        expect(CMYKColors).to.contains(elementColor);
+        CMYKColors.filter((color) => color !== elementColor);
+      });
+
+      cy.get('[data-cy="pixels-table"]')
+        .find('[data-cy="pixel"]')
+        .should('have.length', 225)
+        .each((element) => {
+          expect(element).to.have.css('background-color', 'rgb(255, 255, 255)');
+        });
+    });
+});
