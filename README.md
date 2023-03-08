@@ -16,6 +16,6 @@ Inspirado em um projeto que realizei no módulo de fundamentos da trybe, porém 
 - [x] Adicionar à paleta de cores um input do tipo color que altere a cor selecionada;
 - [x] Adicionar um grid com 225 pixels na cor branca;
 - [x] Pintar os pixels com a cor selecionada ao clicá-los;
-- [ ] Salvar a paleta de cores atual no LocalStorage e recuperá-la ao recarregar a página;
-- [ ] Salvar o grid de pixels no LocalStorage e recuperá-lo ao recarregar a página;
+- [x] Salvar a paleta de cores atual no LocalStorage e recuperá-la ao recarregar a página;
+- [x] Salvar o grid de pixels no LocalStorage e recuperá-lo ao recarregar a página;
 - [ ] Adicionar um botão que limpa o quadro;

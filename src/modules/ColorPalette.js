@@ -14,7 +14,8 @@ export default class ColorPalette {
       colorElement.style.backgroundColor = colorElement.dataset.defaultColor;
       colorElement.addEventListener('click', this.selectColor);
     });
-    this.colorPicker.addEventListener('change', this.changeColor);
+    this.colorPicker.addEventListener('change', this.changeSelectedColor);
+    this.restoreColors();
     this.selectColor({ target: this.colorElements[0] });
   }
 
@@ -40,7 +41,24 @@ export default class ColorPalette {
   /**
    * @param {{target: HTMLElement}}
    */
-  changeColor = ({ target }) => {
+  changeSelectedColor = ({ target }) => {
     this.selected.style.backgroundColor = target.value;
+    this.saveColors();
   };
+
+  saveColors() {
+    const colorPalette = [...this.colorElements].map(
+      (colorElement) => getComputedStyle(colorElement).backgroundColor
+    );
+    localStorage.setItem('color-palette', JSON.stringify(colorPalette));
+  }
+
+  restoreColors() {
+    const colorPalette = localStorage.getItem('color-palette');
+    if (colorPalette) {
+      this.colorElements.forEach((colorElement, index) => {
+        colorElement.style.backgroundColor = JSON.parse(colorPalette)[index];
+      });
+    }
+  }
 }

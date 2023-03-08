@@ -31,6 +31,8 @@ export default class PixelsTable {
       this.table.appendChild(pixel);
       this.pixels.push(pixel);
     }
+
+    this.restorePixels();
   }
 
   static createPixel() {
@@ -48,7 +50,24 @@ export default class PixelsTable {
     const color = getComputedStyle(this.colorPalette.selected).backgroundColor;
     target.style.backgroundColor = color;
     this.event = this.table.addEventListener('pointerover', this.paintPixel);
+    this.savePixels();
   };
+
+  savePixels() {
+    const pixelsColors = this.pixels.map(
+      (pixel) => getComputedStyle(pixel).backgroundColor
+    );
+    localStorage.setItem('pixel-table', JSON.stringify(pixelsColors));
+  }
+
+  restorePixels() {
+    const pixelsColors = localStorage.getItem('pixel-table');
+    if (pixelsColors) {
+      this.pixels.forEach((pixel, index) => {
+        pixel.style.backgroundColor = JSON.parse(pixelsColors)[index];
+      });
+    }
+  }
 
   /**
    * @param {string} tableClass
