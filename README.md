@@ -18,4 +18,4 @@ Inspirado em um projeto que realizei no módulo de fundamentos da trybe, porém 
 - [x] Pintar os pixels com a cor selecionada ao clicá-los;
 - [x] Salvar a paleta de cores atual no LocalStorage e recuperá-la ao recarregar a página;
 - [x] Salvar o grid de pixels no LocalStorage e recuperá-lo ao recarregar a página;
-- [ ] Adicionar um botão que limpa o quadro;
+- [x] Adicionar um botão que limpa o quadro;
