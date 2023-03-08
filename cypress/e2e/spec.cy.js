@@ -140,9 +140,11 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
       cy.get('[data-cy="color-picker"]')
         .click()
         .invoke('val', '#ff0000')
-        .trigger('change');
-      const saved = JSON.parse(localStorage.getItem('color-palette'));
-      expect(saved[index]).to.be.equal('rgb(255, 0, 0');
+        .trigger('change')
+        .then(() => {
+          const saved = JSON.parse(localStorage.getItem('color-palette'));
+          expect(saved[index]).to.be.equal('rgb(255, 0, 0)');
+        });
     });
   });
 
@@ -171,13 +173,16 @@ describe('Testa a integração da paleta de cores e do tabuleiro de pixels com o
   it('Verifica se, ao ao alterar um pixel, a nova pixel table é salva no localStorage', () => {
     cy.get('[data-cy="color"]').last().click();
     cy.get('[data-cy="pixel"]').each((pixel, index) => {
-      cy.wrap(pixel).click();
-      const saved = JSON.parse(localStorage.getItem('pixel-table'));
-      expect(saved[index]).to.be.equal('rgb(0, 0, 0)');
+      cy.wrap(pixel)
+        .click()
+        .then(() => {
+          const saved = JSON.parse(localStorage.getItem('pixel-table'));
+          expect(saved[index]).to.be.equal('rgb(0, 0, 0)');
+        });
     });
   });
 
-  it('Verifica se, ao recarregar a página, a paleta de cores salva é recuperada', () => {
+  it('Verifica se, ao recarregar a página, a pixel table salva é recuperada', () => {
     cy.get('[data-cy="color"]').last().click();
     cy.get('[data-cy="pixel"]').first().click();
     cy.get('[data-cy="pixel"]').last().click();
