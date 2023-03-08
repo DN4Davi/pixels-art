@@ -11,7 +11,6 @@ export default class ColorPalette {
     this.selected = null;
 
     this.colorElements.forEach((colorElement) => {
-      colorElement.style.backgroundColor = colorElement.dataset.defaultColor;
       colorElement.addEventListener('click', this.selectColor);
     });
     this.colorPicker.addEventListener('change', this.changeSelectedColor);
