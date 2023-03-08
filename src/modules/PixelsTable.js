@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import ColorPalette from './ColorPalette';
 
 export default class PixelsTable {
   /**
@@ -68,6 +69,13 @@ export default class PixelsTable {
       });
     }
   }
+
+  reset = () => {
+    this.table.innerHTML = '';
+    localStorage.clear();
+    this.colorPalette = new ColorPalette('.color', '.color-picker');
+    this.configureTable();
+  };
 
   /**
    * @param {string} tableClass
